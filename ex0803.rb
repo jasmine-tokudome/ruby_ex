@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # 表示したい蔵書データを作成する
 pages = 248
-prices = 2500
+price = 2500
 tax = 0.05
-purchase_price = price * { 1 + tax }
+purchase_price = price * ( 1 + tax )
 
 # 蔵書データを表示する
 puts "ページ数：　" + pages.to_s + "ページ"
