@@ -18,6 +18,16 @@ class Student
         @age
     end
 
+    # name属性のセッターメソッド
+    def name=( value )
+        @name = value
+    end
+
+    # age属性のセッターメソッド
+    def age=( value )
+        @age = value
+    end
+
     # Studentクラスのインスタンスの文字列表現を返す
     def to_s
         "#@name, #@age"
@@ -29,10 +39,17 @@ end
 shin = Student.new('久保秋　誠', 45)
 hiroshi = Student.new('久保秋　博', 41)
 
-# インスタンスの名前と年齢を表示する
-puts shin.to_s
-puts hiroshi.to_s
-
 # ゲッターを使ってインスタンスの名前と年齢を表示する
 puts "氏名：#{shin.name}、年齢：#{shin.age}歳"
-puts "氏名：#{hiroshi.name}、年齢：#{hiroshi.age}歳"
+
+# セッターを使ってshinの名前と年齢を変更する
+shin.name = 'Shigh, Tiger Jeet'
+shin.age = 445
+
+# ゲッターを使ってshinの名前と年齢を表示する
+puts shin.name
+puts shin.age
+
+puts "氏名：#{shin.name}、年齢：#{shin.age}歳"
+
+
