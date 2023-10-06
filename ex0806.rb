@@ -22,18 +22,20 @@ publish_dates = [Date.new(2005,1,25),Date.new(2006,12,23),]
 purchase_dates = [Date.new(2005,2,2),Date.new(2007,1,10),]
 
 # 蔵書データを表示する
-titles.size.times do |i| #titlesの要素文添字をiとしてくりかえす
+titles.size.times  do |i| #titlesの要素文添字をiとしてくりかえす
   puts "--------------------------"
-  puts "書籍名: " + title
-  puts "著者名: " + author
-  puts "よみがな: " + yomi
-  puts "出版社: " + publisher
+  puts "書籍名: " + titles[i]
+  puts "著者名: " + authors[i]
+  puts "よみがな: " + yomies[i]
+  puts "出版社: " + publishers[i]
   puts "ページ数: " + pages.to_s + "ページ"
-  puts "販売価格: " + prices.to_s + "円"
-  puts "販売価格: " + prices.to_s + "円"
+  puts "販売価格: " + prices[i].to_s + "円"
+  puts "販売価格: " + prices[i].to_s + "円"
   puts "購入価格: " + purchase_prices.to_s + "円"
-  puts "出版年: " + publish_date.year.to_s
-  puts "出版年(長い名前): " + mon_name
-  puts "出版年(短い名前): " + abbr_mon_name
+  puts "出版年: " + publish_dates.year.to_s
+  puts "ISBN_10: " +  isbn_10s
+  puts "ISBN_13: " +  isbn_13s
+  puts "寸法: " + sizes[i]
+  puts "発刊日: " + publish_dates[i].to_s
+  puts "購入日: " + purchase_dates[i].to_s
 end
-
