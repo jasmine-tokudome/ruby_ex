@@ -106,5 +106,3 @@ class BookInfoManager
         book_info_manager = BookInfoManager.new("book_info.db")
 
         book_info_manager.run
-
-
