@@ -31,102 +31,108 @@ end
 class BookInfoManager
   def initialize(sqlite_name)
     @db_name = sqlite_name
-    @dbh = DBI.connect("DBI:SQLite3:#{@db_name")
+    @dbh = DBI.connect("DBI:SQLite3:#{@db_name}")
   end
 
   def InitBoookInfos
-  puts "\n0.蔵書データベースの初期化"
-  print "初期化しますか?(Y/yなら削除を実行します):"
-  yesno = gets.chomp.upase
-  if /^Y$/ =~ yesno
+    puts " \ n0.蔵書データベースの初期化 "
+    print " 初期化しますか?(Y / yなら削除を実行します) : "
+    yesno = gets.chomp.upase
+    if /^Y$/ =~ yesno
 
-@db.do("drop table if exists bookinfos")
+      @db.do(" drop table if exists bookinfos ")
 
-@dbh.do("create table bookinfos(id  varchar(50) not null,
-      title varchar(100)  not null,
-      author  varchar(100)  not null,
-      page  int not null,
-                publish_date datetime not null,
-                                      primary key(id);")
-puts "\nデータベースを初期化しました。"                                                                                                                                                                               "
-
-  def addBookInfo
-    puts "\n.蔵書データの登録"
-    print "蔵書データを登録します。"
-
-    book_info = BookInfo.new("", "", 0, Date.new)
-    print "\n"
-    print "キー: "
-    key = gets.chomp
-    print "書籍名: "
-    book_info.title = gets.chomp
-    print "著者名: "
-    book_info.author = gets.chomp
-    print "ページ数: "
-    book_info.page = gets.chomp
-    print "発刊年: "
-    year = gets.chomp.to_i
-    print "発刊月: "
-    month = gets.chomp.to_i
-    print "発刊日: "
-    day = gets.chomp.to_i
-    book_info.publish_date = Date.new(year, month, day)
-
-    @dbh.do("insert into bookinfos values"(
-
-            ))
+      @dbh.do(" create table bookinfos(id varchar(50) not null,
+      title varchar(100) not null,
+      author varchar(100) not null,
+      page int not null,
+               publish_date datetime not null,
+                                     primary key(id); ")
+      puts " \nデータベースを初期化しました。 "
+      end
   end
 
-  def listAllBookInfos
-    puts "\n---------------------------"
-    @db.transaction(true) do
-      @db.roots.each { |key|
-        puts "キー: #{key}"
-        print @db[key].toFormattedString
-        puts "\n---------------------------"
-      }
+    def addBookInfo
+      puts " \ n1.蔵書データの登録 "
+      print " 蔵書データを登録します。 "
+
+      book_info = BookInfo.new(" ", " ", 0, Date.new)
+      print " \ n "
+      print " キー : "
+      key = gets.chomp
+      print " 書籍名 : "
+      book_info.title = gets.chomp
+      print " 著者名 : "
+      book_info.author = gets.chomp
+      print " ページ数 : "
+      book_info.page = gets.chomp
+      print " 発刊年 : "
+      year = gets.chomp.to_i
+      print " 発刊月 : "
+      month = gets.chomp.to_i
+      print " 発刊日 : "
+      day = gets.chomp.to_i
+      book_info.publish_date = Date.new(year, month, day)
+
+      @dbh.do(" insert into bookinfos values (                                                                                                                                                                                                                                                                                                                                                                                       \ '#{key}\',
+\'#{book_info.title}\',
+\'#{book_info.author}\',
+\'#{book_info.page}\',
+\'#{book_info.publish_date}\');")
+      puts "\n登録しました。"
     end
 
-    def delBookInfo
-      print "\n"
-      print "キーを指定してください:"
-      key = gets.chomp
-      @db.transaction do
-        if @db.root?(key).toFormattedString
-          print "\n削除しますか?(Y/yなら削除を実行します)"
-          @db.delete(key)
-          puts "\nデータベースから削除しました"
+    def listAllBookInfos
+      item_name = { ' id ' => "キー", ' title ' => "書籍名", ' author ' => "著者名", ' page ' => "ページ数", ' publish_date ' => "発刊日" }
+
+      puts "\2.蔵書データの表示"
+      print "蔵書データを表示します。"
+
+      puts "\n---------------------------"
+
+      sth = @dbh.execute("select * from bookinfos")
+
+      counts = 0
+      sth.each.do |row|
+        row.each_with_name do |val,name|
+          puts "#{item_name(name)}: #{val.to_s}"
+        end
+      puts "\n---------------------------"
+      counts = counts + 1
+      end
+
+      sth.finish
+
+      puts "\n#{counts}件表示しました。"
+    end
+
+    def run
+      while true
+        print "
+0.蔵書データベースでの初期化
+1.蔵書データの登録
+2.蔵書データの表示
+9.終了
+番号を選んでください(0,1,2,9)"
+
+        num = gets.chomp
+        case
+        when ' 0 ' == num
+          initBookInfos
+        when ' 1 ' == num
+          addBookInfo
+        when ' 2 ' == num
+          listAllBookInfos
+        when ' 9 ' == num
+          @dbh.disconnect
+          puts "\n終了しました。"
+          break;
+        else
         end
       end
     end
-  end
 
 
-  def run
-    while true
-      print "
-1.蔵書データの登録
-2.蔵書データの表示
-3.蔵書データの削除
-9.修了
-番号を選んでください(1,2,3、9):"
+    book_info_manager = BookInfoManager.new("bookinfo_sqlite.db")
 
-      num = gets.chomp
-      case
-      when '1' == num
-        addBookInfo
-      when '2' == num
-        listAllBookInfos
-      when '3' == num
-        delBookInfo
-      when '9' == num
-        break;
-      else
-      end
-    end
-  end
-end
-
-book_info_manager = BookInfoManager.new("book_info.db")
-
-book_info_manager.run
+    book_info_manager.run
