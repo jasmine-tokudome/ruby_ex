@@ -3,9 +3,6 @@ require 'rubygems'
 require 'dbi'
 require 'date'
 
-# -*- coding: utf-8 -*-
-require 'pstore'
-
 class BookInfo
   # BookInfoクラスのインスタンスを初期化する
   def initialize(title, author, page, publish_date)
@@ -20,7 +17,7 @@ class BookInfo
 
   # BookInfoクラスのインスタンスの文字列時表現を返す
   def to_s
-    "#@title,#@author,#@page,#@publish_date"
+    "#{@title}, #{@author}, #{@page}, #{@publish_date}"
   end
 
   def toFormattedString(sep = "\n")
@@ -34,13 +31,13 @@ class BookInfoManager
     @dbh = DBI.connect("DBI:SQLite3:#{@db_name}")
   end
 
-  def InitBoookInfos
+  def initBookInfos
     puts " \ n0.蔵書データベースの初期化 "
-    print " 初期化しますか?(Y / yなら削除を実行します) : "
-    yesno = gets.chomp.upase
+    print " 初期化しますか?(Y/yなら削除を実行します) : "
+    yesno = gets.chomp.upcase
     if /^Y$/ =~ yesno
 
-      @db.do(" drop table if exists bookinfos ")
+      @dbh.do("drop table if exists bookinfos")
 
       @dbh.do(" create table bookinfos(id varchar(50) not null,
       title varchar(100) not null,
@@ -48,9 +45,9 @@ class BookInfoManager
       page int not null,
                publish_date datetime not null,
                                      primary key(id); ")
-      puts " \nデータベースを初期化しました。 "
+        puts " \nデータベースを初期化しました。 "
       end
-  end
+    end
 
     def addBookInfo
       puts " \ n1.蔵書データの登録 "
@@ -75,6 +72,7 @@ class BookInfoManager
       book_info.publish_date = Date.new(year, month, day)
 
       @dbh.do(" insert into bookinfos values (                                                                                                                                                                                                                                                                                                                                                                                       \ '#{key}\',
+\'#{key}\',
 \'#{book_info.title}\',
 \'#{book_info.author}\',
 \'#{book_info.page}\',
@@ -99,7 +97,6 @@ class BookInfoManager
         end
       puts "\n---------------------------"
       counts = counts + 1
-      end
 
       sth.finish
 
@@ -117,13 +114,13 @@ class BookInfoManager
 
         num = gets.chomp
         case
-        when ' 0 ' == num
+        when '0' == num
           initBookInfos
-        when ' 1 ' == num
+        when '1' == num
           addBookInfo
-        when ' 2 ' == num
+        when '2' == num
           listAllBookInfos
-        when ' 9 ' == num
+        when '9' == num
           @dbh.disconnect
           puts "\n終了しました。"
           break;
@@ -131,7 +128,7 @@ class BookInfoManager
         end
       end
     end
-
+  end
 
     book_info_manager = BookInfoManager.new("bookinfo_sqlite.db")
 
