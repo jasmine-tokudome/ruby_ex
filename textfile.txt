@@ -1,6 +1,1 @@
-recode 1
-recode 2
-recode 3
-RECODE 1
-RECODE 2
-RECODE 3
+touch
