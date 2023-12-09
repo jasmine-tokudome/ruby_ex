@@ -19,3 +19,5 @@ bar = Bar.new
 bar.var += 2
 
 puts "#{foo.var}/#{bar.var}"
+puts "#{foo.var}"
+puts "#{bar.var}"
