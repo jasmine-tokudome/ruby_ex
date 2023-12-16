@@ -4,4 +4,3 @@ def traverse(path)
       process_file(name)
       end
   end
-end
