@@ -5,3 +5,5 @@ end
 
 p func(){}
 p func
+p func()
+p func{}
