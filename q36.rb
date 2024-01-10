@@ -1,0 +1,1 @@
+p "hogepiyohogehogehoge".slice(/o../)
