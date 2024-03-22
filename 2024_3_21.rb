@@ -6,3 +6,5 @@ p uri.scheme
 p uri.host
 p uri.port
 p uri.path
+
+p URI.split(uri)
