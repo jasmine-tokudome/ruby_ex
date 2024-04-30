@@ -16,3 +16,4 @@ d = Identity.new.this_object
 
 p a == b
 p c == d
+
