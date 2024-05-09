@@ -1,0 +1,1 @@
+10.times{|d| print d < 1...d > 6 ? "O" : "X" }
